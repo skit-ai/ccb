@@ -1,3 +1,19 @@
 #+TITLE: ccb
 
 Random pairing bot for virtual coffee.
+
+** Quickstart
+Bot Token scopes needed:
++ =chat:write=
++ =users:read=
++ =reactions:write=
++ =channels:read=, =groups:read=, =im:read=, =mpim:read=
+
+** Workflow
+#+begin_src shell
+# Make matches using a seed (or using default)
+poetry run ccb group --output-json=matches.json
+
+# Post on channel
+poetry run ccb post --matches-json=matches.json --channel-name=test
+#+end_src
