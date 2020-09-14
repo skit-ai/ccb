@@ -1,6 +1,8 @@
 import math
 from typing import List
 
+from pydash import py_
+
 import slack
 from ccb.types import User
 
@@ -53,3 +55,19 @@ def group_items(items: List, n: int) -> List[List]:
         start = end
 
     return groups
+
+
+def channel_name_to_id(name: str, client: slack.WebClient) -> str:
+    """
+    Return slack id for given channel name.
+    """
+
+    response = client.users_conversations(types="public_channel,private_channel,mpim,im", exclude_archived=True)
+    channels = response["channels"]
+
+    result = py_.find(channels, lambda ch: ch["name"] == name)
+
+    if result:
+        return result["id"]
+    else:
+        raise ValueError(f"Channel {name} not found")
