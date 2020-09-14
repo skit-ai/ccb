@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "coffee-catchup-bot"
+name = "ccb"
 version = "0.1.0"
-description = ""
+description = "Random pairing bot for virtual coffee"
 authors = ["Abhinav Tushar <abhinav@lepisma.xyz>"]
 
 [tool.poetry.dependencies]
@@ -11,6 +11,9 @@ slackclient = "^2.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0.2"
+
+[tool.poetry.scripts]
+ccb = "ccb.cli:main"
 
 [build-system]
 requires = ["poetry>=0.12"]

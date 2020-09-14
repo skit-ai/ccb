@@ -1,4 +1,4 @@
-from coffee_catchup_bot import __version__
+from ccb import __version__
 
 
 def test_version():
