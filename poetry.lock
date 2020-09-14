@@ -136,6 +136,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.9.0"
 
 [[package]]
+category = "main"
+description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
+name = "pydash"
+optional = false
+python-versions = "*"
+version = "4.8.0"
+
+[package.extras]
+dev = ["coverage", "flake8", "mock", "pylint", "pytest", "pytest-cov", "sphinx", "sphinx-rtd-theme", "tox", "twine", "wheel"]
+
+[[package]]
 category = "dev"
 description = "Python parsing module"
 name = "pyparsing"
@@ -209,7 +220,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "fb0f2418dd3c85eaaec61b5bd332f5e6a5fa6ee91393a3d5b3417eb2cb761154"
+content-hash = "bafc6cf3cbe71839369f1ec22ddb882ca2540f94104642f0c7bcc48fe257a31d"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -293,6 +304,10 @@ pluggy = [
 py = [
     {file = "py-1.9.0-py2.py3-none-any.whl", hash = "sha256:366389d1db726cd2fcfc79732e75410e5fe4d31db13692115529d34069a043c2"},
     {file = "py-1.9.0.tar.gz", hash = "sha256:9ca6883ce56b4e8da7e79ac18787889fa5206c79dcc67fb065376cd2fe03f342"},
+]
+pydash = [
+    {file = "pydash-4.8.0-py2.py3-none-any.whl", hash = "sha256:611ad40e3b11fb57396cca4a55ea04641200a1dd632c3c7e2c14849bee386625"},
+    {file = "pydash-4.8.0.tar.gz", hash = "sha256:546afa043ed1defa3122383bebe8b7072f43554ccc5f0c4360638f99e5ed7327"},
 ]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},

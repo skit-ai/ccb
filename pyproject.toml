@@ -8,6 +8,7 @@ authors = ["Abhinav Tushar <abhinav@lepisma.xyz>"]
 python = "^3.8"
 docopt = "^0.6.2"
 slackclient = "^2.8.2"
+pydash = "^4.8.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0.2"
