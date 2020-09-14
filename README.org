@@ -1,1 +1,3 @@
-#+TITLE: Random pairing bot for virtual coffee
+#+TITLE: coffee-catchup-bot
+
+Random pairing bot for virtual coffee.
