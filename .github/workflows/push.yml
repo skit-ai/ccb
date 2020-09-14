@@ -27,4 +27,4 @@ jobs:
         SLACK_BOT_USER_TOKEN: ${{ secrets.SLACK_BOT_USER_TOKEN }}
       run: |
         poetry run ccb group --output-json=matches.json
-        poetry run ccb post --matches-json=matches.json --channel-name=test
+        poetry run ccb post --matches-json=matches.json --channel-name=random
