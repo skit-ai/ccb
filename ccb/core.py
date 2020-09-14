@@ -19,6 +19,8 @@ def list_users(client: slack.WebClient) -> List[User]:
             continue
         if member["deleted"]:
             continue
+        if member["id"] == "USLACKBOT":
+            continue
         users.append(User(member["id"], member["real_name"]))
     return users
 

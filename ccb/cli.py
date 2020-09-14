@@ -37,6 +37,10 @@ def main():
 
         random.seed(seed)
         users = list_users(client)
+
+        print(f":: Found {len(users)} users")
+        print(f":: Making groups of max size {n}")
+
         random.shuffle(users)
         groups = group_items(users, n)
 
