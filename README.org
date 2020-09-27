@@ -1,5 +1,7 @@
 #+TITLE: ccb
 
+[[https://img.shields.io/github/v/tag/Vernacular-ai/ccb.svg?style=flat-square]]
+
 Coffee Catchup Bot (ccb) is a slack bot for virtual coffee pairing.
 
 ** Quickstart
