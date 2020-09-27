@@ -56,6 +56,11 @@ def main():
         users = list_users(client)
 
         print(f":: Found {len(users)} users")
+
+        to_skip = {uid.strip() for uid in os.environ.get("CCB_SKIP_LIST", "").split(",")}
+        print(f":: Skipping {len(to_skip)} users")
+        users = [u for u in users if u.id not in to_skip]
+
         print(f":: Making groups of max size {n}")
 
         random.shuffle(users)

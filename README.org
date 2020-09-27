@@ -1,6 +1,6 @@
 #+TITLE: ccb
 
-Random pairing bot for virtual coffee.
+Coffee Catchup Bot (ccb) is a slack bot for virtual coffee pairing.
 
 ** Quickstart
 Bot Token scopes needed:
@@ -17,3 +17,6 @@ poetry run ccb group --output-json=matches.json
 # Post on channel
 poetry run ccb post --matches-json=matches.json --channel-name=test
 #+end_src
+
+You can also skip users by adding comma separated slack user ids in the
+environment variable =CCB_SKIP_LIST=.
