@@ -25,3 +25,9 @@ jobs:
 
     - name: Test
       run: poetry run pytest
+
+    - name: Post matches
+      env:
+        SLACK_BOT_USER_TOKEN: ${{ secrets.SLACK_BOT_USER_TOKEN }}
+      run: |
+        ./scripts/fortnightly.sh
