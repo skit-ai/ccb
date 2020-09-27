@@ -3,13 +3,14 @@ Coffee catchup bot
 
 Usage:
   ccb group --output-json=<output-json> [--n=<n>] [--seed=<seed>]
-  ccb post --matches-json=<matches-json> --channel-name=<channel-name>
+  ccb post --matches-json=<matches-json> --channel-name=<channel-name> [--template-file=<template-file>]
 
 Options:
   --n=<n>                          Max number of people in each group [default: 4]
   --seed=<seed>                    Integer seed to use instead of the default
   --matches-json=<matches-json>    File with matching information
   --channel-name=<channel-name>    Name of the channel to post the matching in
+  --template-file=<template-file>  Jinja2 template file for slack post.
 """
 
 import json
@@ -22,6 +23,7 @@ from docopt import docopt
 
 import slack
 from ccb.core import channel_name_to_id, group_items, list_users
+from ccb.template import build_message
 from ccb.types import User
 
 
@@ -29,14 +31,10 @@ def format_group(group: List[User]) -> str:
     return " ".join([f"<@{u.id}>" for u in group])
 
 
-def format_matches(matches) -> str:
-    lines = ["Here are the coffee matches!"]
-    lines.append("\n")
-    for i, group in enumerate(matches["groups"]):
-        lines.append(f"group {i + 1}: " + format_group(group))
-
-    lines.append("\n")
-    lines.append(f"Seed: {matches['seed']}")
+def format_groups(groups: List[List[User]]) -> str:
+    lines = []
+    for i, group in enumerate(groups):
+        lines.append(f"Group {i + 1}: " + format_group(group))
     return "\n".join(lines)
 
 
@@ -82,7 +80,14 @@ def main():
             matches = json.load(fp)
 
         matches["groups"] = [[User(u["id"], u["name"]) for u in group] for group in matches["groups"]]
-        message = format_matches(matches)
+
+        if args["--template-file"]:
+            with open(args["--template-file"]) as fp:
+                template = fp.read()
+        else:
+            template = None
+
+        message = build_message(format_groups(matches["groups"]), matches["seed"], template)
 
         channel_id = channel_name_to_id(args["--channel-name"], client)
         response = client.chat_postMessage(channel=channel_id, text=message)
