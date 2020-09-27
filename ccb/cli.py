@@ -58,7 +58,10 @@ def main():
         print(f":: Found {len(users)} users")
 
         to_skip = {uid.strip() for uid in os.environ.get("CCB_SKIP_LIST", "").split(",")}
-        print(f":: Skipping {len(to_skip)} users")
+        if "" in to_skip:
+            to_skip.remove("")
+
+        print(f":: Skipping {len(to_skip)}")
         users = [u for u in users if u.id not in to_skip]
 
         print(f":: Making groups of max size {n}")
