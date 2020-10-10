@@ -19,6 +19,9 @@ poetry run ccb group --output-json=matches.json
 
 # Post on channel
 poetry run ccb post --matches-json=matches.json --channel-name=test
+
+# Send group DM for scheduling catchup
+poetry run ccb dm-group --matches-json=matches.json --template-file=./assets/template.j2
 #+end_src
 
 You can also skip users by adding comma separated slack user ids in the
