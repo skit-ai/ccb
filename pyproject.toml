@@ -10,6 +10,7 @@ docopt = "^0.6.2"
 slackclient = "^2.8.2"
 pydash = "^4.8.0"
 jinja2 = "^2.11.2"
+tqdm = "^4.50.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0.2"

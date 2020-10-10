@@ -4,6 +4,7 @@ Coffee catchup bot
 Usage:
   ccb group --output-json=<output-json> [--n=<n>] [--seed=<seed>]
   ccb post --matches-json=<matches-json> --channel-name=<channel-name> [--template-file=<template-file>]
+  ccb dm-group --matches-json=<matches-json> --template-file=<template-file>
 
 Options:
   --n=<n>                          Max number of people in each group [default: 4]
@@ -20,6 +21,7 @@ from dataclasses import asdict
 from typing import List
 
 from docopt import docopt
+from tqdm import tqdm
 
 import slack
 from ccb.core import channel_name_to_id, group_items, list_users
@@ -99,3 +101,20 @@ def main():
                 name=reaction,
                 timestamp=response.data["ts"]
             )
+
+    elif args["dm-group"]:
+        # Make new group DM with the people in matches and send a message for
+        # scheduling the catchup.
+
+        with open(args["--matches-json"]) as fp:
+            matches = json.load(fp)
+
+        with open(args["--template-file"]) as fp:
+            template = fp.read()
+
+        matches["groups"] = [[User(u["id"], u["name"]) for u in group] for group in matches["groups"]]
+
+        for group in tqdm(matches["groups"]):
+            user_ids = [u.id for u in group]
+            response = client.conversations_open(users=user_ids)
+            client.chat_postMessage(channel=response["channel"]["id"], text=template)
