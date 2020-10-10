@@ -9,7 +9,8 @@ Bot Token scopes needed:
 + =chat:write=
 + =users:read=
 + =reactions:write=
-+ =channels:read=, =groups:read=, =im:read=, =mpim:read=
++ =channels:read=
++ =mpim:write= for sending group DMs
 
 ** Workflow
 #+begin_src shell
