@@ -7,5 +7,5 @@ then
     echo "Week number $week is even. Skipping.";
 else
     poetry run ccb group --output-json=matches.json
-    poetry run ccb post --matches-json=matches.json --channel-name=random --template-file=./assets/vai.j2
+    # poetry run ccb post --matches-json=matches.json --channel-name=random --template-file=./assets/vai.j2
 fi
