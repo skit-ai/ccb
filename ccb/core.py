@@ -1,10 +1,36 @@
+import json
 import math
 from typing import List
 
+import slack
 from pydash import py_
 
-import slack
 from ccb.types import User
+
+
+def load_users_from_json(json_path: str) -> List[User]:
+    """
+    List users from json dump of slack members.
+    """
+
+    with open(json_path) as fp:
+        members = json.load(fp)
+
+    users = []
+    for member in members:
+        if member["is_bot"]:
+            continue
+        if member["deleted"]:
+            continue
+        if member["id"] == "USLACKBOT":
+            continue
+        users.append(User(member["id"], member["real_name"]))
+
+    return users
+
+
+def list_users_from_user_group(client: slack.WebClient, user_group: str) -> List[User]:
+    raise NotImplementedError()
 
 
 def list_users(client: slack.WebClient) -> List[User]:
