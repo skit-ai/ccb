@@ -11,6 +11,7 @@ Bot Token scopes needed:
 + =reactions:write=
 + =channels:read=
 + =mpim:write= for sending group DMs
++ =usergroups:read= for pairing based on user group handles
 
 ** Workflow
 #+begin_src shell
