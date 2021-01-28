@@ -29,11 +29,11 @@ def load_users_from_json(json_path: str) -> List[User]:
     return users
 
 
-def list_users_from_user_group(client: slack.WebClient, user_group: str) -> List[User]:
+def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List[User]:
     raise NotImplementedError()
 
 
-def list_users(client: slack.WebClient) -> List[User]:
+def load_users(client: slack.WebClient) -> List[User]:
     """
     List workspace users.
     """

@@ -26,7 +26,7 @@ import slack
 from docopt import docopt
 from tqdm import tqdm
 
-from ccb.core import (channel_name_to_id, group_items, list_users,
+from ccb.core import (channel_name_to_id, group_items, load_users,
                       load_users_from_json, load_users_from_user_group)
 from ccb.template import build_message
 from ccb.types import User
@@ -62,7 +62,7 @@ def main():
         elif args["--user-group"]:
             users = load_users_from_user_group(client, args["--user-group"])
         else:
-            users = list_users(client)
+            users = load_users(client)
 
         print(f":: Found {len(users)} users")
 
