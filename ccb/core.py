@@ -4,6 +4,7 @@ from typing import List
 
 import slack
 from pydash import py_
+from tqdm import tqdm
 
 from ccb.types import User
 
@@ -30,7 +31,20 @@ def load_users_from_json(json_path: str) -> List[User]:
 
 
 def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List[User]:
-    raise NotImplementedError()
+    """
+    List users in a given user group handle.
+    """
+
+    user_groups = client.usergroups_list(include_users=True)["usergroups"]
+    group = py_.find(user_groups, lambda it: it["handle"] == user_group)
+    user_ids = group["users"]
+
+    users = []
+    for i in tqdm(user_ids, desc=f"Collecting user info for group {user_group}"):
+        u = client.users_info(user=i)["user"]
+        users.append(User(u["id"], u["real_name"]))
+
+    return users
 
 
 def load_users(client: slack.WebClient) -> List[User]:
