@@ -20,7 +20,6 @@ import json
 import os
 import random
 from dataclasses import asdict
-from typing import List
 
 import jinja2
 import slack
@@ -31,17 +30,6 @@ from ccb.core import (channel_name_to_id, group_items, load_users,
                       load_users_from_user_group)
 from ccb.template import TPL_DM, TPL_MATCHES
 from ccb.types import User
-
-
-def format_group(group: List[User]) -> str:
-    return " ".join([f"<@{u.id}>" for u in group])
-
-
-def format_groups(groups: List[List[User]]) -> str:
-    lines = []
-    for i, group in enumerate(groups):
-        lines.append(f"Group {i + 1}: " + format_group(group))
-    return "\n".join(lines)
 
 
 def main():
@@ -97,7 +85,7 @@ def main():
         else:
             template = TPL_MATCHES
 
-        message = jinja2.Template(template).render(groups_string=format_groups(matches["groups"]))
+        message = jinja2.Template(template).render(groups=matches["groups"])
 
         channel_id = channel_name_to_id(args["--channel-name"], client)
         response = client.chat_postMessage(channel=channel_id, text=message)
