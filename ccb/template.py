@@ -1,19 +1,14 @@
-from typing import Optional
-
-import jinja2
-
-DEFAULT = """Here are the coffee matches!
+TPL_MATCHES = """Here are the coffee matches!
 
 {{ groups_string }}
 """
 
+TPL_DM = """Hi, feel free to use this group for scheduling your coffee catchup.
 
-def build_matches_message(groups_string: str, template: Optional[str] = None) -> str:
-    """
-    Build messages for coffee matches. Use a default template, if not provided.
-    """
-
-    template = template or DEFAULT
-
-    tpl = jinja2.Template(template)
-    return tpl.render(groups_string=groups_string)
+{% if topics %}
+Here are few conversation starters for you:
+{% for topic in topics %}
++ {{ topic }}
+{% endfor %}
+{% endif %}
+"""
