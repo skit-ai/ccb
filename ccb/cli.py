@@ -27,7 +27,7 @@ from tqdm import tqdm
 
 from ccb.core import (channel_name_to_id, group_items, load_users,
                       load_users_from_user_group)
-from ccb.template import build_message
+from ccb.template import build_matches_message
 from ccb.types import User
 
 
@@ -95,7 +95,7 @@ def main():
         else:
             template = None
 
-        message = build_message(format_groups(matches["groups"]), matches["seed"], template)
+        message = build_matches_message(format_groups(matches["groups"]), matches["seed"], template)
 
         channel_id = channel_name_to_id(args["--channel-name"], client)
         response = client.chat_postMessage(channel=channel_id, text=message)
