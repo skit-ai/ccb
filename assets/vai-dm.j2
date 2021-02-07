@@ -1,5 +1,11 @@
 Hi, feel free to use this group for scheduling your coffee catchup.
 
+{% if topics -%}
+Here are few conversation starters for you (tag @esat-team for better topics):
+{% for topic in topics -%}
++ {{ topic }}
+{% endfor %}
+{%- endif %}
 If you have a feature request for the bot—like automatic time suggestion and scheduling based on your calendars—tell <@UB9SY6F63> about it. You can also raise an issue on the github repository <https://github.com/Vernacular-ai/ccb/|here>.
 
 Check <https://outline.vernacular.ai/doc/coffee-catchups-0ZX7wUGhtm|this doc> for more details.
