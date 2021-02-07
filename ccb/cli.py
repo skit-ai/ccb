@@ -2,7 +2,7 @@
 Coffee catchup bot
 
 Usage:
-  ccb group --output-json=<output-json> [--n=<n>] [--seed=<seed>] ([--users-json=<users-json>]|[--user-group=<user-group>])
+  ccb group --output-json=<output-json> [--n=<n>] [--seed=<seed>] [--user-group=<user-group>]
   ccb post --matches-json=<matches-json> --channel-name=<channel-name> [--template-file=<template-file>]
   ccb dm-group --matches-json=<matches-json> --template-file=<template-file>
 
@@ -12,7 +12,6 @@ Options:
   --matches-json=<matches-json>    File with matching information
   --channel-name=<channel-name>    Name of the channel to post the matching in
   --template-file=<template-file>  Jinja2 template file for slack post.
-  --users-json=<users-json>        Use the provided users list instead of fetching everyone from slack.
   --users-group=<users-group>      Pick users from given user group.
 """
 
@@ -27,7 +26,7 @@ from docopt import docopt
 from tqdm import tqdm
 
 from ccb.core import (channel_name_to_id, group_items, load_users,
-                      load_users_from_json, load_users_from_user_group)
+                      load_users_from_user_group)
 from ccb.template import build_message
 from ccb.types import User
 
@@ -57,9 +56,7 @@ def main():
 
         random.seed(seed)
 
-        if args["--users-json"]:
-            users = load_users_from_json(args["--users-json"])
-        elif args["--user-group"]:
+        if args["--user-group"]:
             users = load_users_from_user_group(client, args["--user-group"])
         else:
             users = load_users(client)

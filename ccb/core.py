@@ -9,27 +9,6 @@ from tqdm import tqdm
 from ccb.types import User
 
 
-def load_users_from_json(json_path: str) -> List[User]:
-    """
-    List users from json dump of slack members.
-    """
-
-    with open(json_path) as fp:
-        members = json.load(fp)
-
-    users = []
-    for member in members:
-        if member["is_bot"]:
-            continue
-        if member["deleted"]:
-            continue
-        if member["id"] == "USLACKBOT":
-            continue
-        users.append(User(member["id"], member["real_name"]))
-
-    return users
-
-
 def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List[User]:
     """
     List users in a given user group handle.
