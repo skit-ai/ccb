@@ -2,7 +2,7 @@ name: Match
 
 on:
   schedule:
-    - cron: '30 6 * * 1'
+    - cron: '30 5 * * 1'
 
 jobs:
   post:
