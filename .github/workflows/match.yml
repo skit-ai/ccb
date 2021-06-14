@@ -1,8 +1,8 @@
-name: Post
+name: Match
 
 on:
   schedule:
-    - cron: '30 5 * * 1'
+    - cron: '30 6 * * 1'
 
 jobs:
   post:
@@ -22,9 +22,10 @@ jobs:
     - name: Install python dependencies
       run: poetry install
 
-    - name: Post matches
+    - name: Match and post
       env:
         SLACK_BOT_USER_TOKEN: ${{ secrets.SLACK_BOT_USER_TOKEN }}
-        CCB_SKIP_LIST: ${{ secrets.CCB_SKIP_LIST }}
       run: |
-        ./scripts/fortnightly.sh
+        poetry run ccb group --output-json=test.json --n=3 --user-group=coffee-catchup-group
+        poetry run ccb post --matches-json=test.json --channel-name=random --template-file ./assets/vai.j2
+        poetry run ccb dm-group --matches-json=./test.json --template-file=./assets/vai-dm.j2
