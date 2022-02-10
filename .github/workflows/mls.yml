@@ -1,0 +1,31 @@
+name: Mls
+
+on:
+  schedule:
+    - cron: '30 5 * * 1'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install poetry
+
+    - name: Install python dependencies
+      run: poetry install
+
+    - name: Match and post
+      env:
+        SLACK_BOT_USER_TOKEN: ${{ secrets.SLACK_BOT_USER_TOKEN }}
+      run: |
+        poetry run ccb group --output-json=test-mls.json --n=2 --user-group=ml-solutions
+        poetry run ccb post --matches-json=test-mls.json --channel-name=team-machine-learning --template-file ./assets/skit-mls.j2
+        poetry run ccb dm-group --matches-json=./test-mls.json --template-file=./assets/skit-mls-dm.j2

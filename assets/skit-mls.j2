@@ -1,0 +1,5 @@
+Here are the pair programming matches for this week :technologist:
+
+{% for group in groups %}
+Group {{ loop.index }}: {% for user in group %} <@{{ user.id }}> {% endfor %}
+{% endfor %}
