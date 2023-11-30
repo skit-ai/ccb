@@ -23,7 +23,6 @@ def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List
         u = client.users_info(user=i)["user"]
         users.append(User(u["id"], u["real_name"], u["tz"]))
 
-    breakpoint()
     return users
 
 
