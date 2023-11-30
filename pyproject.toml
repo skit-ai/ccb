@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ccb"
-version = "0.4.0"
+version = "0.4.1"
 description = "Random pairing bot for virtual coffee"
 authors = ["Abhinav Tushar <abhinav@lepisma.xyz>"]
 
