@@ -11,6 +11,7 @@ slackclient = "^2.8.2"
 pydash = "^4.8.0"
 jinja2 = "^2.11.2"
 tqdm = "^4.50.2"
+markupsafe = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0.2"

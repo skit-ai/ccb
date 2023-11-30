@@ -20,7 +20,7 @@ def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List
     users = []
     for i in tqdm(user_ids, desc=f"Collecting user info for group {user_group}"):
         u = client.users_info(user=i)["user"]
-        users.append(User(u["id"], u["real_name"]))
+        users.append(User(u["id"], u["real_name"], u["tz"]))
 
     return users
 
@@ -41,7 +41,7 @@ def load_users(client: slack.WebClient) -> List[User]:
             continue
         if member["id"] == "USLACKBOT":
             continue
-        users.append(User(member["id"], member["real_name"]))
+        users.append(User(member["id"], member["real_name"], u["tz"]))
     return users
 
 
