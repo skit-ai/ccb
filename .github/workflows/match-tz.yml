@@ -1,0 +1,31 @@
+name: Match (tz pairing)
+
+on:
+  schedule:
+    - cron: '30 5 * * 1'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install poetry
+
+    - name: Install python dependencies
+      run: poetry install
+
+    - name: Match and post
+      env:
+        SLACK_BOT_USER_TOKEN: ${{ secrets.SLACK_BOT_USER_TOKEN }}
+      run: |
+        poetry run ccb pair-tz --output-json=test.json --user-group=coffee-catchup-group
+        poetry run ccb post --matches-json=test.json --channel-name=random --template-file ./assets/vai.j2
+        poetry run ccb dm-group --matches-json=./test.json --template-file=./assets/vai-dm.j2
