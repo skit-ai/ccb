@@ -4,6 +4,7 @@ from typing import List
 import slack
 from pydash import py_
 from tqdm import tqdm
+from collections import defaultdict
 
 from ccb.types import User
 
@@ -22,6 +23,7 @@ def load_users_from_user_group(client: slack.WebClient, user_group: str) -> List
         u = client.users_info(user=i)["user"]
         users.append(User(u["id"], u["real_name"], u["tz"]))
 
+    breakpoint()
     return users
 
 
@@ -43,6 +45,41 @@ def load_users(client: slack.WebClient) -> List[User]:
             continue
         users.append(User(member["id"], member["real_name"], u["tz"]))
     return users
+
+
+def pair_users(users: List[User]) -> List[List[User]]:
+    """
+    Pair users keeping cross-tz matches at higher priority.
+    """
+
+    tz_groups = defaultdict(list)
+    for user in users:
+        tz_groups[user.tz].append(user)
+
+    pairs = []
+    used = set()
+
+    for tz, group in tz_groups.items():
+        for user in group:
+            if user.id not in used:
+                for other_tz, other_group in tz_groups.items():
+                    if other_tz != tz:
+                        for other_user in other_group:
+                            if other_user.id not in used:
+                                pairs.append([user, other_user])
+                                used.update([user.id, other_user.id])
+                                break
+                    if user.id in used:
+                        break
+
+    for tz, group in tz_groups.items():
+        for i in range(0, len(group), 2):
+            if group[i].id not in used:
+                if i + 1 < len(group) and group[i + 1].id not in used:
+                    pairs.append([group[i], group[i + 1]])
+                    used.update([group[i].id, group[i + 1].id])
+
+    return pairs
 
 
 def group_items(items: List, n: int) -> List[List]:

@@ -3,6 +3,7 @@ Coffee catchup bot
 
 Usage:
   ccb group --output-json=<output-json> [--n=<n>] [--seed=<seed>] [--user-group=<user-group>]
+  ccb pair-tz --output-json=<output-json> [--seed=<seed>] [--user-group=<user-group>]
   ccb post --matches-json=<matches-json> --channel-name=<channel-name> [--template-file=<template-file>]
   ccb dm-group --matches-json=<matches-json> [--template-file=<template-file>] [--topics-file=<topics-file>]
 
@@ -27,7 +28,7 @@ from docopt import docopt
 from tqdm import tqdm
 
 from ccb.core import (channel_name_to_id, group_items, load_users,
-                      load_users_from_user_group)
+                      load_users_from_user_group, pair_users)
 from ccb.template import TPL_DM, TPL_MATCHES
 from ccb.types import User
 
@@ -64,6 +65,41 @@ def main():
 
         random.shuffle(users)
         groups = group_items(users, n)
+
+        output = {
+            "groups": [[asdict(u) for u in group] for group in groups],
+            "seed": seed
+        }
+
+        with open(args["--output-json"], "w") as fp:
+            json.dump(output, fp, indent=2)
+
+    elif args["pair-tz"]:
+        seed = args["--seed"]
+
+        if seed:
+            seed = int(seed)
+
+        random.seed(seed)
+
+        if args["--user-group"]:
+            users = load_users_from_user_group(client, args["--user-group"])
+        else:
+            users = load_users(client)
+
+        print(f":: Found {len(users)} users")
+
+        to_skip = {uid.strip() for uid in os.environ.get("CCB_SKIP_LIST", "").split(",")}
+        if "" in to_skip:
+            to_skip.remove("")
+
+        print(f":: Skipping {len(to_skip)}")
+        users = [u for u in users if u.id not in to_skip]
+
+        print(f":: Making pairs")
+
+        random.shuffle(users)
+        groups = pair_users(users)
 
         output = {
             "groups": [[asdict(u) for u in group] for group in groups],
