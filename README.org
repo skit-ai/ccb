@@ -5,7 +5,7 @@
 Coffee Catchup Bot (ccb) is a slack bot for virtual coffee pairing.
 
 ** Quickstart
-Bot Token scopes needed:
+Set up env var: ~SLACK_BOT_USER_TOKEN~ with following bot token scopes:
 + =chat:write=
 + =users:read=
 + =reactions:write=
@@ -15,14 +15,18 @@ Bot Token scopes needed:
 
 ** Workflow
 #+begin_src shell
-# Make matches using a seed (or using default)
-poetry run ccb group --output-json=matches.json
+  # Make matches using a seed (or using default)
+  poetry run ccb group --output-json=matches.json
 
-# Post on channel
-poetry run ccb post --matches-json=matches.json --channel-name=test
+  # Make pairs while prioritizing cross time-zone matches. Useful for
+  # decentralized teams.
+  poetry run ccb pair-tz --output-json=matches.json
 
-# Send group DM for scheduling catchup
-poetry run ccb dm-group --matches-json=matches.json --template-file=./assets/template.j2
+  # Post on channel
+  poetry run ccb post --matches-json=matches.json --channel-name=test
+
+  # Send group DM for scheduling catchup
+  poetry run ccb dm-group --matches-json=matches.json --template-file=./assets/template.j2
 #+end_src
 
 You can also skip users by adding comma separated slack user ids in the
